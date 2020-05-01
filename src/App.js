@@ -75,6 +75,8 @@ function App() {
       filters: [
         { text: '名詞', value: '名詞' },
         { text: '動詞', value: '動詞' },
+        { text: '副詞', value: '副詞' },
+        { text: '形容詞', value: '形容詞' },
       ],
       onFilter: (value, record) => record.d2.indexOf(value) === 0,
 
