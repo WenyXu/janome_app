@@ -4,7 +4,7 @@
  */
 import { extend } from 'umi-request';
 
-export const baseUrl='http://192.168.3.5:8888'
+export const baseUrl='https://asia-east2-empyrean-pixel-261505.cloudfunctions.net/function-1'
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',

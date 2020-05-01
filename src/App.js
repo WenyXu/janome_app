@@ -7,6 +7,47 @@ import Box from '@material-ui/core/Box';
 import {fetch} from './services/fetch'
 import * as Papa from 'papaparse';
 import  Table from 'antd/es/table'
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { green } from '@material-ui/core/colors';
+import Fab from '@material-ui/core/Fab';
+import CheckIcon from '@material-ui/icons/Check';
+import SaveIcon from '@material-ui/icons/Save';
+import { makeStyles } from '@material-ui/core/styles';
+import clsx from 'clsx';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  wrapper: {
+    margin: theme.spacing(1),
+    position: 'relative',
+  },
+  buttonSuccess: {
+    backgroundColor: green[500],
+    '&:hover': {
+      backgroundColor: green[700],
+    },
+  },
+  fabProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: -6,
+    left: -6,
+    zIndex: 1,
+  },
+  buttonProgress: {
+    color: green[500],
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    marginTop: -12,
+    marginLeft: -12,
+  },
+}));
 
 function App() {
   const download = ()=>{
@@ -29,7 +70,10 @@ function App() {
       title: '品詞',
       dataIndex: 'd2',
       key: 'd2',
-      sorter: (a, b) => a.d2.length - b.d2.length,
+      filters: [
+        { text: '名詞', value: '名詞' },
+        { text: '動詞', value: '動詞' },
+      ],
     },
     {
       title: '品詞細分類1',
@@ -87,18 +131,27 @@ function App() {
   const [value,setValue] = useState('吾輩は猫である')
   const [res,setRes] = useState()
   const [table,setTable] = useState([])
+  const [loading, setLoading] = React.useState(false);
+  const [success, setSuccess] = React.useState(false);
+  const timer = React.useRef();
+  const classes = useStyles();
+
   const toDataSource = (d1,d2,d3,d4,d5,d6,d7,d8,d9,d10) =>{
     return {
       d1,d2,d3,d4,d5,d6,d7,d8,d9,d10
     }
   }
   const fetchData = async () =>{
+    if(loading)
+      return 
     if(value===undefined || value==='')
       return
+    setSuccess(false)
+    setLoading(true);
     await fetch(value).then(function (response) {
       console.log(response);
       let res = '';
-      response.map((item,index)=>{
+      response && response.length!==0 && response.map((item,index)=>{
         let split = index===0?'':"\n"
         item=item.replace("\t", ",")
         res+=split+item;
@@ -112,27 +165,55 @@ function App() {
       })
       setTable(final)
       console.log(final)
+      setSuccess(true)
+      setLoading(false);
+    }).catch(()=>{
+      setSuccess(false)
+      setLoading(false);
     })
 
     console.log(value)
   }
+  const handleButtonClick = () => {
+    
+    if (!loading) {
+      setSuccess(false);
+      setLoading(true);
+      timer.current = setTimeout(() => {
+        setSuccess(true);
+        setLoading(false);
+      }, 2000);
+    }
+  };
+  const buttonClassname = clsx({
+    [classes.buttonSuccess]: success,
+  });
   return (
     <div className="Wrapper">
-      <Paper variant="outlined" className="Paper" >
-        <TextField
-            className="Textarea"
-            id="outlined-multiline-static"
-            label="Input"
-            multiline
-            rows={8}
-            value={value}
-            onChange={(event)=>setValue(event.target.value)}
-            variant="outlined"
-          />
-          <Box className="ButtonBox">
-            <Button size="medium" variant="outlined" color="primary"  onClick={() => fetchData()}>
-              Get Result
-            </Button>
+          <Paper variant="outlined" className="Paper" >
+            <TextField
+                className="Textarea"
+                id="outlined-multiline-static"
+                label="Input"
+                multiline
+                rows={8}
+                value={value}
+                onChange={(event)=>setValue(event.target.value)}
+                variant="outlined"
+              />
+              <Box className="ButtonBox">
+              <div className={classes.wrapper}>
+            <Fab
+              aria-label="save"
+              color="primary"
+              className={buttonClassname}
+              onClick={fetchData}
+            >
+              {success ? <CheckIcon /> : <PlayArrowIcon />}
+            </Fab>
+            {loading && <CircularProgress size={68} className={classes.fabProgress} />}
+          </div>
+            
             {table.length!==0&&<Button size="medium"  variant="outlined" color="secondary"  onClick={() => download()}>
               Download
             </Button>}
@@ -143,7 +224,17 @@ function App() {
          
       </Paper>
       }
-      <footer className="footer"> Copyright © 2020 CATCH ME 😊 @   <a target="_blank" href="https://terminal.im">Terminal.im</a>. Built with Create React App. </footer>
+      <footer className="footer"> 
+      <div>
+      Copyright © 2020 CATCH ME @ 😊 <a target="_blank" href="https://terminal.im">Terminal.im</a>. Built with <a target="_blank" href="https://github.com/facebook/create-react-app">Create React App</a>.
+      <div>
+        Source Code:<a  target="_blank" href="https://github.com/WenyXu/janome_be">BE</a>,<a href="https://github.com/WenyXu/janome_app" target="_blank">FE</a>. We are using Serverless,The Backend running in GCP Cloud Functions.
+      </div>
+      </div>  
+      
+      
+      
+      </footer>
     </div>
   );
 }
