@@ -1,0 +1,26 @@
+@import '~antd/dist/antd.css';
+
+.Wrapper{
+  display: 'flex';
+  padding-top: 1rem;
+}
+.Paper{
+  margin: 2rem;
+  padding: 1rem;
+}
+.Paper2{
+  margin: 2rem;
+}
+.Textarea{
+  width: 100%;
+}
+.ButtonBox{
+  padding-top: 1rem;
+  display: flex;
+  justify-content: space-evenly;
+  // justify-content: center;
+}
+.footer{
+  display: flex;
+  justify-content: center;
+}
