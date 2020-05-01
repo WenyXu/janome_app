@@ -65,11 +65,13 @@ function App() {
       dataIndex: 'd1',
       key: 'd1',
       sorter: (a, b) => a.d1.length - b.d1.length,
+      ellipsis: true,
     },
     {
       title: '品詞',
       dataIndex: 'd2',
       key: 'd2',
+      ellipsis: true,
       filters: [
         { text: '名詞', value: '名詞' },
         { text: '動詞', value: '動詞' },
@@ -80,12 +82,14 @@ function App() {
       dataIndex: 'd3',
       key: 'd3',
       sorter: (a, b) => a.d3.length - b.d3.length,
+      ellipsis: true,
     },
     {
       title: '品詞細分類2',
       dataIndex: 'd4',
       key: 'd4',
       sorter: (a, b) => a.d4.length - b.d4.length,
+      ellipsis: true,
 
     },
     {
@@ -93,6 +97,7 @@ function App() {
       dataIndex: 'd5',
       key: 'd5',
       sorter: (a, b) => a.d5.length - b.d5.length,
+      ellipsis: true,
 
     },
     {
@@ -100,6 +105,7 @@ function App() {
       dataIndex: 'd6',
       key: 'd6',
       sorter: (a, b) => a.d6.length - b.d6.length,
+      ellipsis: true,
 
     },
     {
@@ -107,24 +113,31 @@ function App() {
       dataIndex: 'd7',
       key: 'd7',
       sorter: (a, b) => a.d7.length - b.d7.length,
+      ellipsis: true,
+
     },
     {
       title: '基本形',
       dataIndex: 'd8',
       key: 'd8',
       sorter: (a, b) => a.d8.length - b.d8.length,
+      ellipsis: true,
+
     },
     {
       title: '読み',
       dataIndex: 'd9',
       key: 'd9',
       sorter: (a, b) => a.d9.length - b.d9.length,
+      ellipsis: true,
+
     },
     {
       title: '発音',
       dataIndex: 'd10',
       key: 'd10',
       sorter: (a, b) => a.d10.length - b.d10.length,
+      ellipsis: true,
 
     },
   ];
