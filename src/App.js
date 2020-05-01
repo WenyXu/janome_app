@@ -76,6 +76,8 @@ function App() {
         { text: '名詞', value: '名詞' },
         { text: '動詞', value: '動詞' },
       ],
+      onFilter: (value, record) => record.d2.indexOf(value) === 0,
+
     },
     {
       title: '品詞細分類1',
